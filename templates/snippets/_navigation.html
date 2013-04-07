@@ -1,0 +1,30 @@
+<!-- Navbar
+================================================== -->
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Office</a>
+            <div class="nav-collapse collapse" id="main-menu">
+                {% if session.logged_in %}
+                <ul class="nav" id="main-menu-left">
+                    <li><a href="#">New gist</a></li>
+                    <li><a href="#">My gist</a></li>
+                </ul>
+                {% endif %}
+                <ul class="nav pull-right" id="main-menu-right">
+                    {% if not session.logged_in %}
+                    <li><a rel="tooltip" href="#">Sign Up</a></li>
+                    <li><a rel="tooltip" href="#">Sign In</a></li>
+                    {% else %}
+                    <li><a rel="tooltip" href="#">Sign Out</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<!doctype html >
+<html lang = "en" >
+    <head>
+        <!--[if lt IE 9] >
+          <script src = "http://html5shim.googlecode.com/svn/trunk/html5.js" > < / script >
+        <![endif] -->
+
+        <title> Office </title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap.min.css') }}">
+        <link href="{{ url_for('static', filename='stylesheets/bootstrap-responsive.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='stylesheets/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='stylesheets/bootswatch.css') }}" rel="stylesheet">
+    </head>
+    <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+        {% include "snippets/_navigation.html" %}
+
+        <div class="container">
+            {% include "snippets/_messages.html" %}
+            {% block content %}{% endblock %}
+            <!-- Footer
+            ================================================== -->
+            <hr>
+            <footer id="footer">
+              <p class="pull-right"><a href="#top">Back to top</a></p>
+              <div class="links">
+                <a href="http://www.brandonapp.com">Author</a>
+              </div>
+            </footer>
+
+        </div>
+
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script src="{{ url_for('static', filename='javascripts/bootswatch.js') }}"></script>
+        {% block extrascript %}{% endblock %}
+    </body>
+</html>
