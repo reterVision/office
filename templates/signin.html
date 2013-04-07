@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="span6">
+        {% from "snippets/_formhelper.html" import render_field %}
+        <form class="form-horizontal" method="POST" action="">
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        {{ form.remember }} {{ form.remember.label }}
+                    </label>
+                    <button type="submit" class="btn">Sign In</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

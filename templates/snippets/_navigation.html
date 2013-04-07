@@ -18,10 +18,10 @@
                 {% endif %}
                 <ul class="nav pull-right" id="main-menu-right">
                     {% if not session.logged_in %}
-                    <li><a rel="tooltip" href="#">Sign Up</a></li>
-                    <li><a rel="tooltip" href="#">Sign In</a></li>
+                    <li><a rel="tooltip" href="{{ url_for("signup") }}">Sign Up</a></li>
+                    <li><a rel="tooltip" href="{{ url_for("signin") }}">Sign In</a></li>
                     {% else %}
-                    <li><a rel="tooltip" href="#">Sign Out</a></li>
+                    <li><a rel="tooltip" href="{{ url_for("signout") }}">Sign Out</a></li>
                     {% endif %}
                 </ul>
             </div>
