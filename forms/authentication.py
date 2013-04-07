@@ -2,7 +2,7 @@ from wtforms import Form, BooleanField, TextField, PasswordField, validators
 
 
 class SignInForm(Form):
-    email = TextField('Email', [
+    username = TextField('Email or Username', [
         validators.Required(),
         validators.Length(min=4, max=25)
     ])
@@ -14,6 +14,10 @@ class SignInForm(Form):
 
 
 class SignUpForm(Form):
+    username = TextField('Username', [
+        validators.Required(),
+        validators.Length(min=4, max=25)
+    ])
     email = TextField('Email Address', [
         validators.Required(),
         validators.Length(min=6, max=35)

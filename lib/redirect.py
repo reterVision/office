@@ -18,8 +18,7 @@ def get_redirect_target():
 
 
 def redirect_back(endpoint, **values):
-    target = request.form.get("next", None)
+    target = request.args.get("next", None)
     if not target or not is_safe_url(target):
         target = url_for(endpoint, **values)
-        print target
     return redirect(target)

@@ -21,11 +21,13 @@ def make_pw_hash(pw, salt=None):
     return hashlib.sha256(pw + salt).hexdigest() + "," + salt
 
 
-def validate_login(db, email, password):
+def validate_login(db, username, password):
     users = db.users
     user = None
 
-    user = users.find_one({'_id': email})
+    user = users.find_one({'_id': username})
+    if user is None:
+        user = users.find_one({'email': username})
     if user is None:
         raise DoesNotExist
 
@@ -34,12 +36,11 @@ def validate_login(db, email, password):
     if (user['password'] != make_pw_hash(password, salt)):
         raise UserPasswordNotMatch
 
-    return True
+    return user["_id"]
 
 
 def start_session(db, email):
     sessions = db.sessions
-
     session = {'username': email}
 
     try:
@@ -79,17 +80,21 @@ def get_session(db, session_id):
 
 
 # creates a new user in the database
-def newuser(db, email, password, message):
+def newuser(db, username, email, password, message):
     # the hashed password is what we insert
     password_hash = make_pw_hash(password)
 
-    user = {"_id": email,
+    user = {"_id": username,
+            "email": email,
             "password": password_hash}
     users = db.users
+    if users.find_one({"email": email}):
+        message["error"] = u"Email has already been token!"
+        return False
     try:
         users.insert(user)
     except (OperationFailure, DuplicateKeyError):
-        message["error"] = u"This user already exists!"
+        message["error"] = u"Username has already been token!"
         return False
     return True
 

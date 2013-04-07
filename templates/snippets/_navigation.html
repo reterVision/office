@@ -12,14 +12,14 @@
             <div class="nav-collapse collapse" id="main-menu">
                 {% if session.logged_in %}
                 <ul class="nav" id="main-menu-left">
-                    <li><a href="#">New gist</a></li>
-                    <li><a href="#">My gist</a></li>
+                    <li {% if status == "new" %} class="active" {% endif %}><a href="{{ url_for("gist_new") }}">New gist</a></li>
+                    <li {% if status == "list" %} class="active" {% endif %}><a href="{{ url_for("gist_list", username=session.username) }}">My gist</a></li>
                 </ul>
                 {% endif %}
                 <ul class="nav pull-right" id="main-menu-right">
                     {% if not session.logged_in %}
-                    <li><a rel="tooltip" href="{{ url_for("signup") }}">Sign Up</a></li>
-                    <li><a rel="tooltip" href="{{ url_for("signin") }}">Sign In</a></li>
+                    <li {% if status == "signup" %} class="active" {% endif %}><a rel="tooltip" href="{{ url_for("signup") }}">Sign Up</a></li>
+                    <li {% if status == "signin" %} class="active" {% endif %}><a rel="tooltip" href="{{ url_for("signin") }}">Sign In</a></li>
                     {% else %}
                     <li><a rel="tooltip" href="{{ url_for("signout") }}">Sign Out</a></li>
                     {% endif %}

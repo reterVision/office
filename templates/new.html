@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+<style type="text/css" media="screen">
+    #editor-container {
+        position: relative;
+        left: 125px;
+        width: 960px;
+    }
+    #editor { 
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 200px;
+        left: 0;
+        width: 990px;
+        height: 327px;
+    }
+    #code-desc-textarea {
+        position: relative;
+        width: 850px;
+    }
+</style>
+{% endblock %}
+
+{% block extrascript %}
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/github");
+    editor.getSession().setMode("ace/mode/javascript");
+
+    function submitCode() {
+        var v = editor.getValue();
+        var form = document.getElementById("code-form");
+        form.elements["code-content"].value = v;
+        form.submit();
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <div id="editor-container">
+            <div class="row">
+                <form action="#" method="POST" id="code-form" style="display: none;">
+                    <input type="text" name="code-content" value="" />
+                </form>
+                {{ session.username }}
+                <textarea class="pull-right" form="code-form" placeholder="Gist description..." id="code-desc-textarea" name="code-description" value=""></textarea>
+            </div>
+            <div class="row">
+                <div id="editor">function foo(items) {
+                    var x = "All this is syntax highlighted";
+                    return x;
+                }</div>
+                <button class="btn btn-success pull-right" onClick="submitCode();">Create Gist</button>
+            </div>
+        <div>
+    </div>
+</div>
+{% endblock %}
