@@ -20,14 +20,70 @@
         position: relative;
         width: 850px;
     }
+
+    #code-form .meta {
+        background-color: rgb(250, 250, 250);
+        border-bottom-color: rgb(216, 216, 216);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        color: rgb(85, 85, 85);
+        display: block;
+        font-family: Helvetica, arial, freesans, clean, sans-serif;
+        font-size: 12px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        height: 26px;
+        line-height: 16px;
+        padding-bottom: 6px;
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-top: 6px;
+        position: relative;
+        text-align: left;
+        text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+        width: 978px;
+    }
+    #code-form .meta .name {
+        display: inline-block;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        line-height: 0;
+        padding: 1px 2px 1px;
+    }
+
+    #code-form .meta .name .gist-name-textbox {
+        background: transparent;
+        border: 0;
+        color: #333333;
+        outline: 0;
+        padding: 4px;
+        margin: 0;
+        vertical-align: baseline;
+    }
+
+    #code-form .meta .language-choose-container {
+        display: inline-block;
+    }
+
+    #code-form .meta .language-choose-container .btn-group {
+        padding: 4px;
+        bottom: 2px;
+    }
+
+    #code-form .meta .language-choose-container .btn-group .language-dropdown {
+        height: 320px;
+        overflow-y: scroll;
+    }
 </style>
 {% endblock %}
 
 {% block extrascript %}
-<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ url_for("static", filename="javascripts/ace/ace.js") }}" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/github");
+    editor.setTheme("ace/theme/solarized_light");
     editor.getSession().setMode("ace/mode/javascript");
 
     function submitCode() {
@@ -36,6 +92,15 @@
         form.elements["code-content"].value = v;
         form.submit();
     }
+
+    // Language selection.
+    $(document).ready(function(){
+        $(".selector-item").click(function(){
+            var lang = $(this).attr("data-value")
+            $("#selected-language").text($(this).text());
+            editor.getSession().setMode("ace/mode/" + lang);
+        });
+    });
 </script>
 {% endblock %}
 
@@ -44,17 +109,36 @@
     <div class="span12">
         <div id="editor-container">
             <div class="row">
-                <form action="#" method="POST" id="code-form" style="display: none;">
-                    <input type="text" name="code-content" value="" />
-                </form>
                 {{ session.username }}
                 <textarea class="pull-right" form="code-form" placeholder="Gist description..." id="code-desc-textarea" name="code-description" value=""></textarea>
             </div>
             <div class="row">
-                <div id="editor">function foo(items) {
-                    var x = "All this is syntax highlighted";
-                    return x;
-                }</div>
+                <form action="#" method="POST" id="code-form">
+                    <input type="text" name="code-content" value=""  style="display: none;"/>
+                    <div class="meta">
+                        <div class="name">
+                            <input class="gist-name-textbox" type="text" name="gist[files][][name]" placeholder="name this file…" autocomplete="off" value="">
+                        </div>
+                        <div class="language-choose-container">
+                            <!-- We need to set the language here. -->
+                            <input type="hidden" name="gist[files][][language]" class="gist-language" value="ActionScript">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span id="selected-language">
+                                        Text
+                                    </span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu language-dropdown">
+                                    {% for key, value in lang_list.iteritems() %}
+                                    <li class="selector-item" data-value="{{ value }}"><a href="#">{{ key }}</a><li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="editor"></div>
                 <button class="btn btn-success pull-right" onClick="submitCode();">Create Gist</button>
             </div>
         <div>

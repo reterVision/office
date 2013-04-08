@@ -6,7 +6,7 @@ from lib import redirect_back
 from lib.decorator import login_required, crossdomain
 from models import user
 from models.exceptions import DoesNotExist, UserPasswordNotMatch
-from settings import DEBUG, CONNECTION_STRING, DATABASE
+from settings import DEBUG, CONNECTION_STRING, DATABASE, SUPPORT_LANGUAGES
 
 
 COOKIE = "DEV_COOKIE"
@@ -132,7 +132,8 @@ def gist_new():
     if request.method == "POST":
         pass
 
-    return render_template("new.html", status="new")
+    return render_template("new.html",
+                           status="new", lang_list=SUPPORT_LANGUAGES)
 
 
 @app.route("/gist/<username>")
