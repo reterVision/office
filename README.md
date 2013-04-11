@@ -3,6 +3,11 @@ office
 
 Office is your local gist site.
 
+Features
+========
+
+* Collect business related code snippets within your workmates.
+
 License
 =======
 
